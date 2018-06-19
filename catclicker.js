@@ -1,43 +1,103 @@
-const cats = [
-  {name: 'Boruc',
-  image: 'assets/cat.jpg',
-  clicks: 0
+const cats = [{
+    id: 1,
+    name: 'Boruc',
+    image: 'assets/cat.jpg',
+    clicks: 0
   },
   {
-  name: 'Calka',
-  image: 'assets/calka.jpg',
-  clicks: 0
-  }]
+    id: 2,
+    name: 'Calka',
+    image: 'assets/calka.jpg',
+    clicks: 0
+  },
+  {
+    id: 3,
+    name: 'Blackie',
+    image: 'assets/blackie.jpg',
+    clicks: 0
+  },
+  {
+    id: 4,
+    name: 'Greenie',
+    image: 'assets/greenie.jpg',
+    clicks: 0
+  },
+  {
+    id: 5,
+    name: 'Grumpy',
+    image: 'assets/grumpy.jpg',
+    clicks: 0
+  }
+]
 console.log(cats.length);
 
-const catList = document.querySelector('ul.cats');
-cats.forEach(function(cat){
+
+const catWrapper = document.querySelector('.cats');
+// A list of cats' names:
+const nameList = document.createElement('ul')
+nameList.classList.add('js-cat-names');
+
+catWrapper.appendChild(nameList);
+
+for (let cat of cats) {
   let catLi = document.createElement('li');
+  let catName = document.createElement('button');
+  catName.innerText = cat.name;
+  catName.setAttribute('data-id', cat.id);
+  catLi.append(catName);
+  nameList.append(catLi);
+}
+
+// Selected cat info display area
+const catDisplayWindow = document.createElement('div');
+catDisplayWindow.classList.add('js-cat-display');
+catWrapper.appendChild(catDisplayWindow);
+
+
+// Display buttons
+const catButtons = document.getElementsByTagName('button');
+console.log(catButtons);
+
+for(let button of catButtons){
+  
+  button.addEventListener('click', function(){
+    // finding a cat with id equal to button id
+    let attr = button.getAttribute('data-id');
+    let result = cats.filter(cat => cat.id == attr);
+    reset();
+    createCatDisplay();
+    document.querySelector('.js-cat-name').innerText = result[0].name;
+    document.querySelector('.js-cat-image').src = result[0].image;
+    document.querySelector('.js-clicker-counter').innerText = result[0].clicks;
+  });
+}
+
+function createCatDisplay() {
+  const catDisplayWindow = document.querySelector('.js-cat-display');
   let catContainer = document.createElement('div');
-  catContainer.classList.add('cat')
   let catName = document.createElement('p');
   let catImg = document.createElement('img');
   let  catClick = document.createElement('p');
-  catClick.classList.add('clicker-counter');
 
+  catClick.classList.add('js-clicker-counter');
+  catName.classList.add('js-cat-name');
+  catImg.classList.add('js-cat-image');
 
-  catName.innerText = cat.name;
-  catImg.src = cat.image;
-  catClick.innerText = cat.clicks;
-
-  catLi.append(catContainer);
   catContainer.append(catName);
   catContainer.append(catImg);
   catContainer.append(catClick);
-  catList.append(catLi);
-});
+  catDisplayWindow.appendChild(catContainer);
+}
 
-let catsDisplay = document.getElementsByClassName('cat');
 
-for(i = 0; i < catsDisplay.length; i++){
-  catsDisplay[i].addEventListener('click', function(event){
-    let counter = event.target.parentElement.querySelector(".clicker-counter").innerText;
-    counter++;
-    event.target.parentElement.querySelector(".clicker-counter").innerHTML = counter;
-  });
+function reset(){
+  const parent = document.querySelector('.js-cat-display');
+  let children = parent.children;
+
+  console.log(children);
+  if (parent.children.length !== 0){
+    for(let child of children){
+      child.remove();
+    }
+  }
 }
