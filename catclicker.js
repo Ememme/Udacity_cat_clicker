@@ -59,7 +59,7 @@ const catButtons = document.getElementsByTagName('button');
 console.log(catButtons);
 
 for(let button of catButtons){
-  
+
   button.addEventListener('click', function(){
     // finding a cat with id equal to button id
     let attr = button.getAttribute('data-id');
@@ -69,6 +69,7 @@ for(let button of catButtons){
     document.querySelector('.js-cat-name').innerText = result[0].name;
     document.querySelector('.js-cat-image').src = result[0].image;
     document.querySelector('.js-clicker-counter').innerText = result[0].clicks;
+    counter();
   });
 }
 
@@ -90,6 +91,7 @@ function createCatDisplay() {
 }
 
 
+
 function reset(){
   const parent = document.querySelector('.js-cat-display');
   let children = parent.children;
@@ -100,4 +102,14 @@ function reset(){
       child.remove();
     }
   }
+}
+
+function counter() {
+  let catImg = document.querySelector('img.js-cat-image');
+
+  catImg.addEventListener('click', function(event){
+    let counter = event.target.parentElement.querySelector(".js-clicker-counter").innerText;
+      counter++;
+      event.target.parentElement.querySelector(".js-clicker-counter").innerHTML = counter;
+  });
 }
