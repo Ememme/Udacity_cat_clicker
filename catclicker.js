@@ -64,11 +64,13 @@ for(let button of catButtons){
     // finding a cat with id equal to button id
     let attr = button.getAttribute('data-id');
     let result = cats.filter(cat => cat.id == attr);
+    let catWrapper = document.querySelector('.js-cat');
     reset();
     createCatDisplay();
     document.querySelector('.js-cat-name').innerText = result[0].name;
     document.querySelector('.js-cat-image').src = result[0].image;
     document.querySelector('.js-clicker-counter').innerText = result[0].clicks;
+    document.querySelector('.js-cat').classList.add(result[0].id);
     counter();
   });
 }
@@ -79,6 +81,8 @@ function createCatDisplay() {
   let catName = document.createElement('p');
   let catImg = document.createElement('img');
   let  catClick = document.createElement('p');
+
+  catContainer.classList.add('js-cat');
 
   catClick.classList.add('js-clicker-counter');
   catName.classList.add('js-cat-name');
@@ -105,11 +109,24 @@ function reset(){
 }
 
 function counter() {
+  // catIdFinder();
   let catImg = document.querySelector('img.js-cat-image');
 
   catImg.addEventListener('click', function(event){
     let counter = event.target.parentElement.querySelector(".js-clicker-counter").innerText;
+    let catId = document.querySelector('.js-cat').classList[1];
+    let cat = cats.filter(cat => cat.id == catId)[0]
+
+
       counter++;
       event.target.parentElement.querySelector(".js-clicker-counter").innerHTML = counter;
+      cat.clicks = counter;
+
   });
+}
+
+function catIdFinder() {
+  let catId = document.querySelector('.js-cat').classList[1];
+  let cat = cats.filter(cat => cat.id == catId)[0].clicks;
+  return cat;
 }
