@@ -29,7 +29,6 @@ const cats = [{
     clicks: 0
   }
 ]
-console.log(cats.length);
 
 
 const catWrapper = document.querySelector('.cats');
@@ -100,7 +99,6 @@ function reset(){
   const parent = document.querySelector('.js-cat-display');
   let children = parent.children;
 
-  console.log(children);
   if (parent.children.length !== 0){
     for(let child of children){
       child.remove();
@@ -109,7 +107,7 @@ function reset(){
 }
 
 function counter() {
-  // catIdFinder();
+  catIdFinder();
   let catImg = document.querySelector('img.js-cat-image');
 
   catImg.addEventListener('click', function(event){
@@ -125,7 +123,7 @@ function counter() {
   });
 }
 
-function catIdFinder() {
+var catIdFinder = function () {
   let catId = document.querySelector('.js-cat').classList[1];
   let cat = cats.filter(cat => cat.id == catId)[0].clicks;
   return cat;
